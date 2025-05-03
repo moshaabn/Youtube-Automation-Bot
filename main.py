@@ -71,6 +71,7 @@ def main():
             if video_url:
                 used_content['videos'].append(video_url)
 
+            print(f"searching for music with query: {audio_query}")
             audio_url, attribution_text = search_and_download_music(audio_query, used_content['audios'])
             if audio_url:
                 used_content['audios'].append(audio_url)
@@ -100,7 +101,13 @@ def main():
 
             metadata = generate_metadata(video_query, duration_minutes, attribution=attribution_text, is_short=is_short)
 
-            combine_audio_video("video.mp4", "music.mp3", "final_video.mp4", duration_minutes=duration_minutes, is_short=is_short)
+            combine_audio_video(
+                video_file="video.mp4",
+                audio_file="music.mp3",
+                output_file="final_video.mp4",
+                duration_minutes=duration_minutes,  # 1 minute 45 seconds
+                is_short=True           # Resize video to 1080x1920 if needed
+            )
 
             upload_choice = input("Do you want to upload the video to YouTube? (yes/no): ").lower()
             if upload_choice == 'yes':

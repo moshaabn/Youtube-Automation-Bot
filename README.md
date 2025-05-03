@@ -46,7 +46,7 @@ This will:
 Run main.py manually to generate videos interactively:
 
 ```bash
-python main.py
+python3 main.py
 ```
 </details>
 

@@ -11,7 +11,7 @@ SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
 def install_requirements():
     print("Installing required packages...")
     try:
-        subprocess.check_call(["pip", "install", "-r", "requirements.txt"])
+        subprocess.check_call(["pip3", "install", "-r", "requirements.txt"])
         print("Requirements installed successfully!")
     except subprocess.CalledProcessError as e:
         print(f"Error installing requirements: {e}")
@@ -49,7 +49,7 @@ def setup_api():
         "web": {
             "client_id": client_id,
             "client_secret": client_secret,
-            "redirect_uris": [],
+            "redirect_uris": ["http://localhost:49911/"],
             "auth_uri": "https://accounts.google.com/o/oauth2/auth",
             "token_uri": "https://accounts.google.com/o/oauth2/token"
         }
@@ -74,7 +74,7 @@ def setup_youtube_token():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file('client_secrets.json', SCOPES)
-            creds = flow.run_local_server(port=0)
+            creds = flow.run_local_server(port=49911)
         
         with token_path.open('w') as token_file:
             token_file.write(creds.to_json())
@@ -105,7 +105,7 @@ def main():
     print("Setting up the project...")
     
     # Step 1: Install requirements
-    install_requirements()
+    # install_requirements()
 
     # Step 2: Setup API keys
     setup_api()

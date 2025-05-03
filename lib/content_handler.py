@@ -31,10 +31,10 @@ def search_and_download_meditation_video(used_videos, video_query):
     else:
         print(f"Error: {response.status_code}")
     return None
-
 def search_and_download_music(query, used_audios):
     search_url = f"https://freesound.org/apiv2/search/text/?query={query}&sort=rating_desc&token={FREESOUND_API_KEY}"
     response = requests.get(search_url)
+    print(f"Response status code: {response.status_code}")
 
     if response.status_code == 200:
         data = response.json()
@@ -42,11 +42,13 @@ def search_and_download_music(query, used_audios):
             sound_id = result['id']
             details_url = f"https://freesound.org/apiv2/sounds/{sound_id}/?token={FREESOUND_API_KEY}"
             sound_details = requests.get(details_url).json()
-            
+            print(f"Sound details: {sound_details}")
             if "previews" in sound_details:
                 audio_url = sound_details['previews'].get('preview-hq-mp3') or sound_details['previews'].get('preview-hq-wav')
                 if audio_url and audio_url not in used_audios:
                     download_file(audio_url, "music.mp3")
+                    print(f"Audio found: {audio_url}")
+                    print("downloaded music")
                     return audio_url, sound_details.get('license', '')
 
     print("No new music found.")
